@@ -1,0 +1,12 @@
+# Blender MTL File: 'tetrahedron.blend'
+# Material Count: 1
+
+newmtl Material
+Ns 506.250000
+Ka 1.000000 1.000000 1.000000
+Kd 0.900000 0.900000 1.000000
+Ks 0.250000 0.250000 0.250000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
