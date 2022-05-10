@@ -390,7 +390,7 @@ extern ( C ) {
       /**
        * Specifies the number of components for a given UV channel.
        *
-       * Up to three channels are supported (UVW, for accessing volume or cube
+       * Up to three channels are supported (UVW, for accessing volume or bass_obj
        * maps). If the value is 2 for a given channel <code>n</code>, the
        * component <code>p.z</code> of <code>mTextureCoords[n][p]</code> is set
        * to 0. If the value is 1 for a given channel, <code>p.y</code> is set

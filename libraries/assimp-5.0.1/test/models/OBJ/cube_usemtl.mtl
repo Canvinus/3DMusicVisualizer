@@ -1,11 +1,3 @@
-newmtl mtl
-Ka 1.000 1.000 1.000
-Kd 1.000 1.000 1.000
-Ns 200.000
-Ks 0.050 0.050 0.050
-
-newmtl mtl2
-Ka 1.000 1.000 1.000
-Kd 1.000 1.000 1.000
-Ns 16.000
-Ks 0.375 0.375 0.375
+version https://git-lfs.github.com/spec/v1
+oid sha256:f27dcc7c370c190a5e9420ebe5e567bbf67b1578d5b7f15f4a4eb9813ea44176
+size 182

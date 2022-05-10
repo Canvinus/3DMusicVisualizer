@@ -77,7 +77,7 @@ Documents:  {
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
 			P: "ActiveAnimStackName", "KString", "", "", ""
-			P: "COLLADA_ID", "KString", "", "", "cube.max"
+			P: "COLLADA_ID", "KString", "", "", "bass_obj.max"
 		}
 		RootNode: 0
 	}

@@ -24,11 +24,13 @@ public:
      * The rotation of the 3D object
      */
     glm::vec3 rotation = glm::vec3(0, 0, 0);
+	glm::vec3 init_rotation = glm::vec3(0, 0, 0);
 
     /**
      * The scale of the 3D object
      */
     glm::vec3 scale = glm::vec3(1, 1, 1);
+	glm::vec3 init_scale = glm::vec3(1, 1, 1);
 
 public:
 

@@ -140,7 +140,7 @@ KeyValuePair {
 
 KeyValuePair {
  "File";
- "c:\\code\\sourceforge\\kwxport\\trunkMerged\\test\\data\\cube.max";
+ "c:\\code\\sourceforge\\kwxport\\trunkMerged\\test\\data\\bass_obj.max";
 }
 
 KeyValuePair {

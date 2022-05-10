@@ -1,8 +1,3 @@
-newmtl Trim
-d 1
-Ns 0.75
-Ni 0
-Ka 0 0 0
-Kd 1 1 1
-Ks 0.85098 0.85098 0.85098
-Km 0.05
+version https://git-lfs.github.com/spec/v1
+oid sha256:a8e3b1b303d72e0d0dd4fd831be71a34d4fbe3067f989eeee9375ab6f4138394
+size 88

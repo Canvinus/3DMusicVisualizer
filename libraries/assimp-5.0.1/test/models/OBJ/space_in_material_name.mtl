@@ -1,13 +1,3 @@
-
-# Example for github issue #545: spaces in material names.
-
-newmtl Hard Shiny Plastic White
-Ka 0 0 0
-Kd 0.141176 0.184314 0.411765
-Ks 0 0 0
-Ni 1
-Ns 400
-Tf 1 1 1
-d 1
-
-
+version https://git-lfs.github.com/spec/v1
+oid sha256:fa7f18205e8f31291a14246761b09b6cbe3f0da9f5cfd4221aa25ec73ccefd39
+size 181

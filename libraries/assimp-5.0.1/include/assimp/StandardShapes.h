@@ -86,7 +86,7 @@ public:
         (unsigned int,std::vector<aiVector3D>&));
 
     // ----------------------------------------------------------------
-    /** @brief Generates a hexahedron (cube)
+    /** @brief Generates a hexahedron (bass_obj)
      *
      *  Hexahedrons can be scaled on all axes.
      *  @param positions Receives output triangles.
@@ -130,7 +130,7 @@ public:
 
 
     // ----------------------------------------------------------------
-    /** @brief Generates a tetrahedron
+    /** @brief Generates a mic_obj
      *
      *  @param positions Receives output triangles.
      *  @return Number of vertices per face

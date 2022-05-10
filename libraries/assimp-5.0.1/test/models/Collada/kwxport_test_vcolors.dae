@@ -5,7 +5,7 @@
       <author>JWatte</author>
       <authoring_tool>3dsMax 11 - Feeling ColladaMax v3.05B.</authoring_tool>
       <comments>ColladaMax Export Options: ExportNormals=1;ExportEPolyAsTriangles=1;ExportXRefs=0;ExportSelected=0;ExportTangents=0;ExportAnimations=0;SampleAnim=1;ExportAnimClip=0;BakeMatrices=0;ExportRelativePaths=1;AnimStart=1.36667;AnimEnd=2.16667;</comments>
-      <source_data>file:///c:/code/sourceforge/kwxport/trunkMerged/test/data/cube.max</source_data>
+      <source_data>file:///c:/code/sourceforge/kwxport/trunkMerged/test/data/bass_obj.max</source_data>
     </contributor>
     <created>2008-05-15T20:41:01Z</created>
     <modified>2008-05-15T20:41:03Z</modified>
@@ -356,7 +356,7 @@
     </geometry>
   </library_geometries>
   <library_visual_scenes>
-    <visual_scene id="cube.max" name="cube_max">
+    <visual_scene id="bass_obj.max" name="cube_max">
       <node id="Box01-node" name="Box01" type="NODE">
         <translate>0 0 -19.685</translate>
         <instance_geometry url="#Box01-mesh">
@@ -389,6 +389,6 @@
     </visual_scene>
   </library_visual_scenes>
   <scene>
-    <instance_visual_scene url="#cube.max"/>
+    <instance_visual_scene url="#bass_obj.max"/>
   </scene>
 </COLLADA>

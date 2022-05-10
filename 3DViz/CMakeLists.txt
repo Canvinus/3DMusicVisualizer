@@ -23,6 +23,10 @@ add_executable(3DViz
         src/cpp/objects/object3d.h
         src/cpp/objects/textured_model.cpp
         src/cpp/objects/textured_model.h
+        src/cpp/objects/AudioObject.h
+        src/cpp/objects/AudioObject.cpp
+        src/cpp/objects/PlayBack.h
+        src/cpp/objects/PlayBack.cpp
         src/cpp/loaders/model/model_data.cpp
         src/cpp/loaders/model/model_data.h
         src/cpp/loaders/model/mesh_data.cpp
@@ -37,9 +41,12 @@ add_executable(3DViz
         src/cpp/loaders/font/load_font.h
         src/cpp/loaders/font/character.cpp
         src/cpp/loaders/font/character.h
-        )
+        src/cpp/objects/AudioVis.h)
 
 #GLFW
+set(CMAKE_CXX_STANDARD_LIBRARIES "-static-libgcc -static-libstdc++ -lwsock32 -lws2_32 ${CMAKE_CXX_STANDARD_LIBRARIES}")
+
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,--no-whole-archive")
 
 target_link_libraries(3DViz glfw)
 
@@ -64,3 +71,19 @@ target_link_libraries(3DViz assimp)
 #Freetype
 target_link_libraries(3DViz freetype)
 include_directories(../libraries/freetype-2.10.4/include)
+
+set(SFML_ROOT c:/SFML)
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
+find_package(SFML REQUIRED system window graphics network audio)
+if (SFML_FOUND)
+    include_directories(${SFML_INCLUDE_DIR})
+    target_link_libraries(3DViz ${SFML_LIBRARIES} ${SFML_DEPENDENCIES})
+endif()
+
+# Copy dlls to build
+if(WIN32)
+    file(GLOB BINARY_DEP_DLLS "${SFML_INCLUDE_DIR}/../bin/*.dll")
+    file(COPY ${BINARY_DEP_DLLS} DESTINATION ${CMAKE_BINARY_DIR})
+    file(GLOB MINGW_DEP_DLLS "C:/mingw64/bin/*.dll")
+    file(COPY ${MINGW_DEP_DLLS} DESTINATION ${CMAKE_BINARY_DIR})
+endif()

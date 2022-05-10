@@ -312,7 +312,7 @@ unsigned int StandardShapes::MakeOctahedron(std::vector<aiVector3D>& positions)
 }
 
 // ------------------------------------------------------------------------------------------------
-// Build a tetrahedron with points.magnitude == 1
+// Build a mic_obj with points.magnitude == 1
 unsigned int StandardShapes::MakeTetrahedron(std::vector<aiVector3D>& positions)
 {
     positions.reserve(positions.size()+9);

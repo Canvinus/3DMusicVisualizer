@@ -12,6 +12,7 @@
 #include "camera.h"
 #include "objects/textured_model.h"
 #include "objects/skybox.h"
+#include "objects/PlayBack.h"
 
 const float PI = glm::pi<float>();
 
@@ -145,18 +146,18 @@ Skybox skybox("../res/image/skybox/right.png",
 
 TexturedModel plane("../res/model/plane/plane.obj");
 
-TexturedModel tetrahedron("../res/model/tetrahedron/tetrahedron.obj");
+TexturedModel mic_obj("../res/model/mic/mic.obj");
 
-TexturedModel cube("../res/model/cube/cube.obj");
+TexturedModel bass_obj("../res/model/bass/bass.obj");
 
-TexturedModel cube2("../res/model/cube/cube.obj");
+TexturedModel guitar_obj("../res/model/bass/bass.obj");
 
-TexturedModel cube3("../res/model/cube/cube.obj");
+TexturedModel drum_obj("../res/model/drum/drum.obj");
 
-TexturedModel cube4("../res/model/cube/cube.obj");
+PlayBack* playBack;
 
 std::vector<TexturedModel*> objects;
-std::vector<TexturedModel> models;
+
 void initializeScene();
 
 void initializeSkyboxProgram();
@@ -220,7 +221,15 @@ void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int 
     }
 }
 
-int main() {
+int main(int argc, char *argv[]) {
+
+	if (argc < 2) {
+		cerr << "No program parameters provided !" << endl;
+		exit(EXIT_FAILURE);
+	}
+
+	playBack = new PlayBack(argv[1]);
+
     glfwSetErrorCallback(glfwErrorCallback);
 
     if (!glfwInit()) return -1;
@@ -233,7 +242,7 @@ int main() {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    window = glfwCreateWindow(width, height, "Task 6", nullptr, nullptr);
+    window = glfwCreateWindow(width, height, "3D Music Visualizer", nullptr, nullptr);
 
     // Close the application if the window isn't created
     if (!window) {
@@ -325,39 +334,40 @@ void initializeScene() {
     skybox.initialize();
 
     plane.initialize();
-    plane.scale = glm::vec3(50, 1, 50);
+    plane.scale = glm::vec3(80, 1, 80);
 
-    tetrahedron.initialize();
-    tetrahedron.position = glm::vec3(-5, 2, 0);
+    mic_obj.initialize();
+	mic_obj.init_scale = glm::vec3(0.1, 0.1, 0.1);
+	mic_obj.position = glm::vec3(-11, 9.5, 0);
 
-    cube.initialize();
-    cube.position = glm::vec3(5, 2, 0);
+    bass_obj.initialize();
+	bass_obj.init_scale = glm::vec3(0.3, 0.3, 0.3);
+	bass_obj.rotation = glm::vec3(5, 1, 3);
+	bass_obj.position = glm::vec3(0, 7, 0);
 
-    cube2.initialize();
-    cube2.position = glm::vec3(0, 2, 0);
+	guitar_obj.initialize();
+	guitar_obj.init_scale = glm::vec3(0.3, 0.3, 0.3);
+	guitar_obj.rotation = glm::vec3(5, 1, 3);
+	guitar_obj.position = glm::vec3(10, 7, 0);
 
-	cube3.initialize();
-	cube3.position = glm::vec3(10, 2, 0);
+	drum_obj.initialize();
+	drum_obj.init_scale = glm::vec3(0.01, 0.01, 0.01);
+	drum_obj.position = glm::vec3(20, 7, 0);
 
 	objects.push_back(&plane);
-	objects.push_back(&tetrahedron);
-	objects.push_back(&cube);
-	objects.push_back(&cube2);
-	objects.push_back(&cube3);
+	objects.push_back(&mic_obj);
+	objects.push_back(&bass_obj);
+	objects.push_back(&guitar_obj);
+	objects.push_back(&drum_obj);
 
-/*	GLuint y_init = 2;
-	for(int i = 0; i < 5; i++){
-		models.push_back(TexturedModel("../res/model/cube/cube.obj"));
-
-		models[i].initialize();
-		models[i].position = glm::vec3(11, y_init++, 0);
-
-		objects.push_back(&models[i]);
+	if (playBack->Init())
+	{
+		playBack->Start();
 	}
-
-	for(int i = 0; i < 5; i++){
-		std::cout << models[i].position.x << " " << models[i].position.y << " " << models[i].position.z << std::endl;
-	}*/
+	else
+	{
+		std::cout << "Error: Could not read audio file" << std::endl;
+	}
 }
 
 void initializeSkyboxProgram() {
@@ -529,8 +539,8 @@ void updateControls() {
     if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS) camera.position.y -= cameraMovementSpeed * dt;
     else if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) camera.position.y += cameraMovementSpeed * dt;
 
-	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS) cube3.position.y += 0.5;
-	else if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS) cube3.position.y -= 0.5;
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) { playBack->bass->Pause(); }
+	if (glfwGetKey(window, GLFW_KEY_DELETE) == GLFW_PRESS) { playBack->bass->UnPause();  }
 
     camera.updateDirection();
 }
@@ -543,18 +553,56 @@ void updateProjectionViewMatrix() {
 }
 
 void updateObjects() {
-    glm::vec3 angularVelocity = glm::radians(glm::vec3(10, 10, 0));
+    glm::vec3 angularVelocity = glm::radians(glm::vec3(0, 10, 0));
 
-    rotateObject(tetrahedron, angularVelocity);
-    rotateObject(cube, angularVelocity);
+    GLuint count = 0;
+    for (TexturedModel* object : objects)
+	{
+    	if(count != 0 && count != 2  && count != 3)
+			rotateObject(* object, angularVelocity);
 
-    glm::vec3 pos = cube2.position;
+		count ++;
+	}
 
-    cube2.position = glm::vec3(pos.x + 0.01, pos.y, pos.z);
+	// bass
+	playBack->bass->Update();
+	GLfloat scalefactor = playBack->bass->GetOutputBuckets()[0] / 2.0f
+			+ playBack->bass->GetOutputBuckets()[1] / 2.0f
+			+ playBack->bass->GetOutputBuckets()[2] / 20.0f
+			+ playBack->bass->GetOutputBuckets()[3] / 30.0f;
+	if (scalefactor < 2) scalefactor = 0.0;
+	bass_obj.scale = glm::vec3(bass_obj.init_scale.x * scalefactor, bass_obj.init_scale.y * scalefactor, bass_obj.init_scale.z * scalefactor);
+
+	// drums
+	playBack->drums->Update();
+	scalefactor = playBack->drums->GetOutputBuckets()[0] / 1.5f
+			+ playBack->drums->GetOutputBuckets()[1] / 2.0f
+			+ playBack->drums->GetOutputBuckets()[2] / 10.0f
+			+ playBack->drums->GetOutputBuckets()[3] / 2.0f;
+	if (scalefactor < 2) scalefactor = 0.0;
+	drum_obj.scale = glm::vec3(drum_obj.init_scale.x * scalefactor, drum_obj.init_scale.y * scalefactor, drum_obj.init_scale.z * scalefactor);
+
+	// vocals
+	playBack->vocals->Update();
+	scalefactor = playBack->vocals->GetOutputBuckets()[2] / 2.0f
+			+ playBack->vocals->GetOutputBuckets()[3] / 1.0f
+	 		+ playBack->vocals->GetOutputBuckets()[2] / 30.0f
+			+ playBack->vocals->GetOutputBuckets()[3] / 30.0f;
+	if (scalefactor < 2.5) scalefactor = 0.0;
+	mic_obj.scale = glm::vec3(mic_obj.init_scale.x * scalefactor, mic_obj.init_scale.y * scalefactor, mic_obj.init_scale.z * scalefactor);
+
+	// other
+	playBack->other->Update();
+	scalefactor = playBack->other->GetOutputBuckets()[2] / 1.0f
+			+ playBack->other->GetOutputBuckets()[3] / 1.0f
+			+ playBack->other->GetOutputBuckets()[0] / 10.0f
+			+ playBack->other->GetOutputBuckets()[1] / 20.0f;
+	if (scalefactor < 4) scalefactor = 0.0;
+	guitar_obj.scale = glm::vec3(guitar_obj.init_scale.x * scalefactor, guitar_obj.init_scale.y * scalefactor, guitar_obj.init_scale.z * scalefactor);
 }
 
 void rotateObject(Object3D& object, glm::vec3 angularVelocity) {
-    object.rotation = object.rotation + angularVelocity * dt;
+    object.rotation = glm::vec3(object.rotation + angularVelocity * dt);
 
     object.rotation = glm::mod(object.rotation, PI * 2);
 }
